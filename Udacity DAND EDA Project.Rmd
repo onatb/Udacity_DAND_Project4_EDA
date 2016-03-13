@@ -5,7 +5,14 @@ date: "9 Mart 2016"
 output: html_document
 ---
 
-```{r, echo=FALSE, include=FALSE}
+```{r global_options, include=FALSE}
+
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=FALSE, warning=FALSE, message=FALSE)
+
+```
+
+```{r}
 #Libraries used in this project are shown below
 
 library(markdown)
@@ -35,7 +42,7 @@ During my exploratory analysis, I will try to answer this question and implement
 
 **A brief summary of the data set**
 
-```{r, echo=FALSE}
+```{r}
 wine <- read.csv("C:/Users/Onat/Desktop/wineQualityReds.csv", header = T)
 summary(wine)
 ```
@@ -53,7 +60,7 @@ In this section, I will investigate attributes individually.
 
 Let's start exploring by investigating wine quality first, which is measured with a score range between 0, 10.
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$quality)
 
@@ -68,7 +75,7 @@ In the given data set, wine scores are in range [3,8] and most of them have a sc
 
 Next, let's investigate the alcohol rate in each wine
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$alcohol)
 
@@ -83,7 +90,7 @@ Median score of alcohol is 10.2%, the mean value is 10.42% and the third quartil
 
 It is the amount of sugar remaining after fermentation stops. Let's investigate residual sugar
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$residual.sugar)
 
@@ -98,7 +105,7 @@ This plot has a very long tail on the right side. Third quartile, 2.6, showing t
 
 This attribute describes how acidic or basic a wine is on a scale from 0 (very acidic) to 14 (very basic), where 7 is neutral.
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$pH)
 
@@ -115,7 +122,7 @@ A few of them are more acidic and the most acidic wine has a pH value of 2.74, w
 
 Found in small quantities, citric acid can add 'freshness' and flavor to wines. Next, we will investigate this attribute.
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$citric.acid)
 
@@ -130,7 +137,7 @@ There are two main peaks in this plot. First one is between [0, 0.02] and the se
 
 This attribute gives the amount of acetic acid in wine, which at too high of levels can lead to an unpleasant, vinegar taste
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$volatile.acidity)
 
@@ -145,7 +152,7 @@ This attribute has a mean and median values that are nearly equal (0.52 g/dm3) a
 
 This is a total of most acids involved with wine or fixed or nonvolatile. Let's investigate this attribute now
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$fixed.acidity)
 
@@ -160,7 +167,7 @@ Again we see a bell shaped plot with attribute having range [4.6 g/dm3, 15.9 g/d
 
 Next, let's plot density attribute
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$density)
 
@@ -175,7 +182,7 @@ Density plot looks normally distributed, with mean eqals to 0.9967 and median eq
 
 This is a wine additive which can contribute to sulfur dioxide gas (S02) levels and acts as an antimicrobial and antioxidant.
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$sulphates)
 
@@ -192,7 +199,7 @@ We can conclude, in most wines (in the given data set), sulphate amount is 0.62 
 
 Represents the amount of free and bound forms of S02; in low concentrations, SO2 is mostly undetectable in wine, but at free SO2 concentrations over 50 mg/L, SO2 becomes evident in the nose and taste of wine
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$total.sulfur.dioxide)
 
@@ -207,7 +214,7 @@ As from the  above description, it is not a surprise for us to see such low sulf
 
 After investigating the total sulfur dioxide levels, it will be a good practice to investigate free sulfur dioxide attribute, which prevents microbial growth and the oxidation of wine
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$free.sulfur.dioxide)
 
@@ -222,7 +229,7 @@ Again we see a left skewed plot, in which most of the values are below 21 mg/dm3
 
 In the final plot of univariate plots, I will investigate chlorides attribute, which gives the amount of salt in the wine.
 
-```{r, echo=FALSE}
+```{r}
 
 summary(wine$chlorides)
 
@@ -265,7 +272,7 @@ Some plots are positively skewed and might be log-normally distributed:
 * Alcohol plot and
 * Citric acid plot, which looks very weird
 
-```{r, echo=FALSE}
+```{r}
 #Reassignments: Variable names
 colnames(wine)[colnames(wine)=="volatile.acidity"] <- "vol.acidity"
 colnames(wine)[colnames(wine)=="residual.sugar"] <- "res.sugar"
@@ -283,7 +290,7 @@ In this section, I will create plots using 2 features.
 
 First, let's investigate the correlations between variables.
 
-```{r, echo=FALSE, warning=FALSE}
+```{r}
 # This plot looks so small in html file therefore I added a picture of it
 
 # Create a ggpair plot and exclude "X" column
@@ -299,7 +306,8 @@ First, let's investigate the correlations between variables.
 
 Alcohol, volatile acidity, citric acid and sulphates are the most correlated attributes with quality. Next, I will dig in these variables to see their relationship with quality.
 
-```{r, echo=FALSE, warning=FALSE}
+```{r}
+
 bp11 <- ggplot(data=wine, aes(x=factor(quality), y=alcohol))+
   geom_boxplot()
 bp12 <- ggplot(data=wine, aes(x=factor(quality), y=vol.acidity))+
@@ -317,7 +325,7 @@ After looking at ggpair plot and boxplots, we can say that quality is positively
 
 Let's go one step beyond and calculate a linear model and summarize its results
 
-```{r, echo=FALSE}
+```{r}
 
 summary(lm(quality~alcohol+vol.acidity+citric.acid+sulphates, wine))
 
@@ -331,7 +339,7 @@ Also, let's look at other variable pairs to see top correlated attributes.
 
 **Free SO2 vs. Total SO2**
 
-```{r, echo=FALSE}
+```{r}
 
 ggplot(data=wine, aes(x=free.SO2, y=total.SO2))+
   geom_point()+
@@ -343,7 +351,7 @@ Free SO2 and total So2 attributes are positively correlated with each other, hav
 
 **Fixed Acidity vs. Density & Alcohol vs. Density**
 
-```{r, echo=FALSE}
+```{r}
 
 bp21 <- ggplot(data = wine, aes(x = fixed.acidity, y = density)) +
   geom_point() +
@@ -362,7 +370,7 @@ grid.arrange(bp21, bp22, ncol = 2)
 
 **Fixed Acidity vs. Citric Acid & Volatile Acidity vs. Citric Acid**
 
-```{r, echo=FALSE}
+```{r}
 
 bp31 <- ggplot(data = wine, aes(x = fixed.acidity, y = citric.acid)) +
   geom_point() +
@@ -381,7 +389,7 @@ It is an expected thing to see citrid acid and fixed acidity to have positive an
 
 Another interesting relationship: Volatile acidity vs. pH.
 
-```{r, echo=FALSE}
+```{r}
 
 ggplot(data=wine, aes(x=vol.acidity, y=pH))+
   geom_point()+
@@ -425,7 +433,7 @@ This section includes plots and analysis of multiple variables
 
 In the following 3 plots, darker points indicates better quality wines
 
-```{r, echo=FALSE}
+```{r}
 ggplot(data = wine, aes(y = pH, x = alcohol, color = factor(quality))) +
   geom_point() +
   scale_color_brewer()+
@@ -455,7 +463,7 @@ In the final plot it is much clear to identify darker points.
 
 **Other Multivariate Plots**
 
-```{r, echo=FALSE}
+```{r}
 ggplot(data = wine, aes(y = citric.acid, x = vol.acidity, color = factor(quality))) +
   geom_point() +
   scale_color_brewer()+
@@ -463,7 +471,7 @@ ggplot(data = wine, aes(y = citric.acid, x = vol.acidity, color = factor(quality
 
 ggplot(data = wine, aes(y = total.SO2, x = free.SO2, color = factor(quality))) +
   geom_point() +
-  scale_color_brewer(palette ="Set1")+
+  scale_color_brewer()+
   ggtitle("Free SO2 vs. Total SO2 over Quality")
 ```
 
@@ -488,11 +496,12 @@ While looking for interesting multivariate plots, I created a dozen plots. In fr
 
 **Plot 1**
 
-```{r, echo=FALSE, warning=FALSE}
+```{r}
 ggplot(data=wine, aes(x=factor(quality), y=alcohol))+
   geom_boxplot()+
   ggtitle("The Effect of Alcohol On Quality")+
-  xlab("Alcohol (% by Volume)")
+  xlab("Quality Score")+
+  ylab("Alcohol (% by Volume)")
 
 ```
 
@@ -505,8 +514,9 @@ You may receive the highest quality wine and it may let you experience an unforg
 
 To support our description, we can also plot a density graph
 
-```{r, echo=FALSE, warning=FALSE}
+```{r}
 
+#Supporting density plot
 ggplot(data = wine, aes(x = alcohol, 
                         fill = factor(quality))) +
   geom_density(alpha = 0.3)+
@@ -520,10 +530,10 @@ ggplot(data = wine, aes(x = alcohol,
 
 **Plot 2**
 
-```{r, echo=FALSE, warning=FALSE}
+```{r}
 
 ggplot(data = wine, aes(y = vol.acidity, x = alcohol, color = factor(quality))) +
-  geom_point() +
+  geom_point(alpha=0.8) +
   scale_color_brewer()+
   ggtitle("Alcohol vs. Volatile Acidity over Quality")+
   scale_x_continuous(breaks = seq(8.5, 14.5, 0.5), limit = c(8.5, 14.5))+
@@ -541,11 +551,12 @@ So instead of just looking for the wine with the highest alcohol percentage, we 
 
 **Plot 3**
 
-```{r, echo=FALSE, warning=FALSE}
+```{r}
 
 ggplot(data = wine, aes(y = total.SO2, x = free.SO2, color = factor(quality))) +
-  geom_point() +
-  scale_color_brewer(palette ="Set1", name="Quality\nScore")+
+  geom_point(alpha = 0.5,
+             position = position_jitter(width=1,height=5)) +
+  scale_color_brewer(name="Quality\nScore")+
   scale_x_continuous(breaks = seq(0, 56, 4), limit = c(0, 56))+
   scale_y_continuous(breaks = seq(0, 160, 20), limit = c(0, 160))+
   ggtitle("Free SO2 vs. Total SO2 over Quality")+
@@ -560,8 +571,23 @@ I found this plot very interesting and informative because it seems like there i
 
 Most of the wines having a quality of 6, 7 and 8 are:
 
-* Below the 50 mg/dm3 total sulfur dioxide concentration and,
-* Below the 36 mg/dm3 free sulfur dioxide concentration
+* Below the 75 mg/dm3 total sulfur dioxide concentration and,
+* Below the 30 mg/dm3 free sulfur dioxide concentration
+
+To prove this finding, let's look at 90% quantiles:
+
+```{r}
+
+cat("90% of the red wines in this data set with quality scores 6, 7 & 8,")
+cat("Have a total sulfur dioxide concentration below",
+    quantile(subset(wine, quality>=6)$total.SO2, probs = 0.9),
+    " mg/dm3")
+cat("Have a free sulfur dioxide concentration below",
+    quantile(subset(wine, quality>=6)$free.SO2, probs = 0.9),
+    " mg/dm3")
+
+```
+
 
 ###Reflection
 
