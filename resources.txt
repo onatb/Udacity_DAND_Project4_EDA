@@ -1,0 +1,13 @@
+http://docs.ggplot2.org/
+http://www.investopedia.com/ask/answers/012615/whats-difference-between-rsquared-and-adjusted-rsquared.asp
+http://www.statmethods.net/stats/regression.html
+http://blog.yhat.com/posts/r-lm-summary.html
+http://wine.appstate.edu/sites/wine.appstate.edu/files/Volatile%20Acidity%20Kelly%202011.pdf
+http://www.dummies.com/how-to/content/how-to-discern-wine-quality.html
+https://en.wikipedia.org/wiki/Acids_in_wine
+http://www.businessinsider.com/recognize-high-quality-wine-2014-6
+http://www.mensfitness.com/nutrition/what-to-drink/five-ways-spot-good-wine
+https://en.wikipedia.org/wiki/Quality_Wines_Produced_in_Specified_Regions
+http://ec.europa.eu/agriculture/wine/
+http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2009:193:0060:0139:EN:PDF
+https://onlinecourses.science.psu.edu/stat857/node/223
